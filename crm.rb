@@ -112,9 +112,20 @@ class CRM
 
   end
 
+  at_exit do
+    ActiveRecord::Base.connection.close
+  end
+
+  
+
+
+
 
 end
 
 a_crm_app = CRM.new("mine")
 a_crm_app.main_menu
 # a_crm_app.print_main_menu
+at_exit do
+  ActiveRecord::Base.connection.close
+end
