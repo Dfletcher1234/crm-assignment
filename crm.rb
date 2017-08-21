@@ -1,5 +1,5 @@
 require_relative 'contact'
-class CRM
+class Crm
 
   def initialize(name)
     @name = name
@@ -21,6 +21,9 @@ class CRM
       puts '[5] Search by attribute'
       puts '[6] Exit'
       puts 'Enter a number: '
+
+      answer = gets.chomp.to_i
+    call_option(answer)
     end
 
   def call_option(user_selected)
@@ -44,11 +47,17 @@ class CRM
     print 'Enter a Note: '
     note = gets.chomp
 
-    Contact.create(first_name, last_name, email, note)
+    contact = Contact.create(
+    first_name: first_name,
+    last_name: last_name,
+    email: email,
+    note: note)
+puts "#{contact}created!!"
+
   end
 
   def modify_existing_contact
-    print "Enter the first name of the contact, you would like to modify? "
+    print "Enter the first name of the contact you would like to modify? "
     user_selection = gets.chomp.to_s
     contact = Contact.find_by('first_name',user_selection)
     if contact == nil
@@ -73,7 +82,7 @@ class CRM
       elsif user_selected == 4
           attribute = 'notes'
       end
-      puts "Enter in new value"
+      puts "Enter  new value"
       value = gets.chomp.to_s
       contact.update(attribute,value)
 
@@ -81,14 +90,14 @@ class CRM
   end
 
   def delete_contact
-    print "Enter the first name of the contact, you would like to delete? "
+    puts "who would you like to delete "
     user_selection = gets.chomp.to_s
     contact = Contact.find_by('first_name',user_selection)
     if contact == nil
-      puts "ops! not a contact!"
+      puts "no contact!"
     else
       contact.delete
-      puts "Contact has been delted"
+      puts "delted"
     end
   end
 
@@ -116,16 +125,7 @@ class CRM
     ActiveRecord::Base.connection.close
   end
 
-  
-
-
-
 
 end
-
-a_crm_app = CRM.new("mine")
-a_crm_app.main_menu
-# a_crm_app.print_main_menu
-at_exit do
-  ActiveRecord::Base.connection.close
-end
+a = Crm.new("john")
+a.print_main_menu
